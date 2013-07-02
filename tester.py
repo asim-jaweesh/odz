@@ -11,28 +11,27 @@ from distutils.version import StrictVersion
 
 class Tester:
 	""" La classe des tests de vulnirabilites """
+	""" Class to test's vulnerabilities """
 	def __init__(self):
 		self.fprint = FingerPrint()
 		
 	def wp_vulns(self,version):
-		""" detection Vuln. dans le corps de WP """
+		""" Detection Vuln. dans le corps de WP """
+		""" Detectiing Vulns. in the body of WP """
 		tree = xml.etree.ElementTree.parse("doc/wp_vulns.xml")
 		p = tree.findall("wordpress")
-		#print p
-		#p2 = tree.findall("hash/file")
 		for ele in p:
 			vrs = ele.attrib["version"]
-			#print vrs
 			if (vrs == version):
 				s = ele.getchildren()
 				for elem in s:
 					r = elem.getchildren()
-					#print "test"
 					print "Title : "+r[0].text
 					print "Reference : "+r[1].text
 					print "Type : "+r[2].text
 	def wp_plugins_vulns(self,url):
-		"""detection des vuln. dans les plugins"""
+		""" Detection des vuln. dans les plugins """
+		""" Detecting Vulns. in plugins """
 		tree = xml.etree.ElementTree.parse("doc/plugin_vulns.xml")
 		p = tree.findall("plugin")
 		#cmp = lambda x, y: StrictVersion(x).__cmp__(y)
@@ -49,17 +48,14 @@ class Tester:
 					iversion = iversion1[0]
 				else:
 					iversion = "?"
-				#print iversion
 				s = ele.getchildren()
 				for elem in s :
 					r = elem.getchildren()
 					version = self.fprint.copy(vregex.findall(r[0].text))
-					#print version
 					if (version[0]):
 						v = version[0]
 					else:
 						v = "?"
-					#print v
 					if (len(r) == 3):
 						#found = 1
 						print "[!] Title : "+r[0].text
